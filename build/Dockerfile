@@ -10,10 +10,8 @@ RUN echo "LANG=C.UTF-8" >> /etc/environment && \
     echo "LC_ALL=C.UTF-8" >> /etc/environment
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
-        apt-get install -q -y openssh-server subversion openssl procps less joe && \
+        apt-get install -q -y openssh-server subversion && \
         apt-get clean
-
-#RUN groupadd --gid ${SVN_GID} -r svn && useradd --uid ${SVN_UID} -m -s /bin/bash -g svn svn
 
 COPY setup.sh /root/setup.sh
 RUN chmod +x /root/setup.sh

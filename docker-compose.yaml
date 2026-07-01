@@ -4,9 +4,9 @@ services:
     image: jcrespoc311/svn-ssh:latest
     build:
       context: build
-      args:
-        SVN_UID: ${SVN_UID:-1001}
-        SVN_GID: ${SVN_GID:-1001}
+      #args:
+        #SVN_UID: ${SVN_UID:-1001}
+        #SVN_GID: ${SVN_GID:-1001}
     ports:
       - "0.0.0.0:${SSH_PORT:-65022}:${SSH_PORT:-65022}"
       # avoid exposing native port to the network

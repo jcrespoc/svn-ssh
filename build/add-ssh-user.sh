@@ -33,10 +33,10 @@ esac
 if id -u "$NEW_USER" >/dev/null 2>&1; then
   echo "Existing user: $NEW_USER"
   USERMOD=1
-  [ -n "$NEW_PASS" ] || read -p "Enter password for [$NEW_USER] (press Enter to keep unchanged): " NEW_PASS
+  [ -n "$NEW_PASS" ] || read -s -p "Enter password for [$NEW_USER] (press Enter to keep unchanged): " NEW_PASS
   NEW_PASS="${NEW_PASS:-"-"}"
 else
-  [ -n "$NEW_PASS" ] || read -p "Enter password for [$NEW_USER] (press Enter to disable password access): " NEW_PASS
+  [ -n "$NEW_PASS" ] || read -s -p "Enter password for [$NEW_USER] (press Enter to disable password access): " NEW_PASS
   NEW_PASS="${NEW_PASS:-$(tr -dc 'A-Za-z0-9' </dev/urandom | head -c 16)}"
 
   useradd -m -s /bin/bash -g svn "$NEW_USER"

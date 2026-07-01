@@ -80,7 +80,7 @@ recreate_users_from_home
 echo
 
 
-if [ "$START_NATIVE" -eq 1 ]; then
+if [ "${START_NATIVE:-0}" -eq 1 ]; then
   echo "Starting svnserve in native mode..."  
 
   mkdir -p /var/svn/log /run/svnserve
