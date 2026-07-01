@@ -19,11 +19,13 @@ docker volume create svn-root
 docker volume create svn-homes
 ```
 
-Build (or download image from dockerhub)
+Build image
 
 ```bash
 docker build ./build -t jcrespoc311/svn-ssh:latest
 ```
+
+or download from <a href="https://hub.docker.com/repository/docker/jcrespoc311/svn-ssh/general">DockerHub</a>
 
 ```bash
 docker pull jcrespoc311/svn-ssh:latest
