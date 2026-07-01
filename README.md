@@ -1,6 +1,6 @@
 # SVN+SSH Docker Container
 
-Dockerized Subversion server
+Dockerized Subversion server via ssh
 
 ## Features
 
@@ -8,32 +8,28 @@ Dockerized Subversion server
 - **SSH access** (svn+ssh://) with password or public key authentication
 - **Permission control**: users with read or write access
 - **Persistence**: external volumes for `/home` (users) and `/var/svn` (repository)
-- **Automatic restore**: users and permissions are rebuilt when the container starts
 
 ## Quick Start
 
-Create volumes on first run
+0. Create volumes on first run
 
 ```bash
 docker volume create svn-root
 docker volume create svn-homes
 ```
 
-Build image
+1. Build or download image from <a href="https://hub.docker.com/repository/docker/jcrespoc311/svn-ssh/general">DockerHub</a>
 
 ```bash
 docker build ./build -t jcrespoc311/svn-ssh:latest
 ```
 
-or download from <a href="https://hub.docker.com/repository/docker/jcrespoc311/svn-ssh/general">DockerHub</a>
-
 ```bash
 docker pull jcrespoc311/svn-ssh:latest
 ```
 
-### Start the container
+2. start container
 
-By command line:
 ```bash
 docker run \
     --name my-svn-ssh-server  \
@@ -47,7 +43,8 @@ docker run \
     jcrespoc311/svn-ssh:latest
 ```
 
-Or by docker-compose:
+### Or all at once with compose
+
 ```bash
 docker compose up -d
 ```
@@ -110,7 +107,7 @@ svn ls svn+ssh://usuario@host:65022/repo
 SVN_SSH="ssh -i ~/.ssh/id_rsa -p 65022" svn ls svn+ssh://usuario@host/repo
 ```
 
-### Via native protocol (if START_NATIVE=1)
+### Via native protocol
 
 ```bash
 svn ls svn://localhost:3690/repo
@@ -118,37 +115,5 @@ svn ls svn://localhost:3690/repo
 
 ## Volume Layout
 
-- **svn-homes**: `/home` - user directories for public key configuration in `.ssh/authorized_keys`
+- **svn-homes**: `/home` - for public key persistency
 - **svn-root**: `/var/svn` - SVN repository
-
-Both volumes are **external** (must be created manually) and persistent.
-
-## Important Files
-
-- `build/setup.sh` - Container initialization
-- `build/functions.sh` - User management functions
-- `build/add-ssh-user.sh` - Script to add users
-- `build/del-ssh-user.sh` - Script to delete users
-- `build/list-ssh-user.sh` - Script to list users
-- `build/wrapper.sh` - Wrapper used by SSH ForceCommand
-
-## Security Notes
-
-- **PermitTTY no** - SSH users cannot open interactive shell sessions
-- **ForceCommand** - All SSH commands are routed through `wrapper.sh` (svn+ssh)
-- **SSH_PORT** - Change from default port 22 when possible
-- **authorized_keys** - Mount public keys in `/home/<user>/.ssh/` for passwordless authentication
-
-## Troubleshooting
-
-### Container does not start
-Check external volumes:
-```bash
-docker volume ls | grep svn
-```
-
-If they do not exist:
-```bash
-docker volume create svn-homes
-docker volume create svn-root
-```
