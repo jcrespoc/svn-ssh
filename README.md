@@ -1,5 +1,3 @@
-Image at dockerhub https://hub.docker.com/r/jcrespoc311/svn-ssh
-
 # SVN+SSH Docker Container
 
 Dockerized Subversion server
@@ -14,8 +12,30 @@ Dockerized Subversion server
 
 ## Quick Start
 
+Create volumes on first run
+
+```bash
+docker volume create svn-root
+docker volume create svn-homes
+```
+
 ### Start the container
 
+By command line:
+```bash
+docker run \
+    --name my-svn-ssh-server  \
+    --rm \
+    --detach \
+    --volume svn-root:/var/svn \
+    --volume svn-homes:/home \
+    --env SVN_UID=1001 \
+    --env SVN_GID=1001 \
+    --env START_NATIVE=1 \
+    jcrespoc311/svn-ssh:latest
+```
+
+Or by docker-compose:
 ```bash
 docker compose up -d
 ```
