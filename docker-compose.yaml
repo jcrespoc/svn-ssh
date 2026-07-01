@@ -1,7 +1,7 @@
 services:
   mysubversion:
     container_name: svn-ssh
-    image: svn-ssh
+    image: jcrespoc/svn-ssh
     build:
       context: build
       args:
