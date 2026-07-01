@@ -107,7 +107,7 @@ svn ls svn+ssh://usuario@host:65022/repo
 SVN_SSH="ssh -i ~/.ssh/id_rsa -p 65022" svn ls svn+ssh://usuario@host/repo
 ```
 
-### Via native protocol
+### Via native protocol (if enabled)
 
 ```bash
 svn ls svn://localhost:3690/repo
