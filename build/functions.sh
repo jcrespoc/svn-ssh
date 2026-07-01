@@ -17,11 +17,11 @@ access_type() {
 
   hash="$(getent shadow "$user" | cut -d: -f2)"
   if [ "$hash" != "!" ]; then
-    PASSWORD="SI"
+    PASSWORD="YES"
   fi
 
   if [ -s /home/$user/.ssh/authorized_keys ]; then
-    KEY="SI"
+    KEY="YES"
   fi
 }
 
@@ -66,11 +66,11 @@ recreate_users_from_home() {
       continue
     fi
 
-    # Reusar UID/GID del directorio home persistido para evitar desajustes
+    # Reuse UID/GID from the persisted home directory to avoid mismatches
     uid="$(stat -c %u "$d")"
     gid="$(stat -c %g "$d")"
 
-    # Si el GID no existe, usar grupo svn
+    # If the GID does not exist, use the svn group
     if getent group "$gid" >/dev/null 2>&1; then
       grp="$gid"
     else
@@ -79,14 +79,14 @@ recreate_users_from_home() {
 
     grp="svn"
 
-    # Intentar crear con UID original; si está ocupado, crear sin UID fijo
+    # Try to create with original UID; if occupied, create without fixed UID
     if ! useradd -M -d "$d" -s /bin/bash -u "$uid" -g "$grp" "$u" 2>/dev/null; then
       useradd -M -d "$d" -s /bin/bash -g svn "$u"
     fi
 
     chown -R "$u:svn" "$d"
 
-    # Si existe authorized_keys, reforzar permisos
+    # If authorized_keys exists, enforce secure permissions
     if [ -f "$d/.ssh/authorized_keys" ]; then
       chmod 700 "$d/.ssh" 2>/dev/null || true
       chmod 600 "$d/.ssh/authorized_keys" 2>/dev/null || true

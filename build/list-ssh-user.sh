@@ -2,7 +2,7 @@
 
 . /usr/local/bin/functions.sh
 
-printf "%-10s %-8s %-3s %-8s\n" "usuario" "level" "key" "password"
+printf "%-10s %-8s %-3s %-8s\n" "username" "level" "key" "password"
 printf "%-10s %-8s %-3s %-8s\n" "----------------------------------------------"
 
 for d in /home/*; do
